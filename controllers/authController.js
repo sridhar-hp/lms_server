@@ -54,7 +54,7 @@ if (password != user.password) {
 
 
     // Success
-    res.status(200).json({ success: true,  message: "Login Successful", user });
+    res.status(200).json({ success: true,  message: "Login Successful", user,Role:user.role });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }
