@@ -1,9 +1,26 @@
 const User = require("../models/User");
+const leaves = require("../models/Leave");
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { GiLeatherVest } = require("react-icons/gi");
 
 const createToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
+};
+
+exports.apply= async(req, res)=>{
+  try{
+    const {name, leaveType, startDate, endDate, leaveReason}=req.body;
+    
+    await leaves.create({name, leaveType, startDate, endDate, leaveReason});
+    return res.json({success:true, message:"Leave applied successfully!" });
+
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
 };
 
 exports.registerUser = async (req, res) => {
@@ -59,6 +76,7 @@ if (password != user.password) {
     res.status(500).json({ message: "Server Error", error });
   }
 };
+
 
 
 exports.logoutUser = (req, res) => {

@@ -21,7 +21,7 @@ app.use(cors({
 const authRoutes = require("./routes/authRoutes");
 app.use("/api", authRoutes);
 
-app.get("/", (req, res) => res.send("Server running..."));
+// app.get("/", (req, res) => res.send("Server running..."));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));

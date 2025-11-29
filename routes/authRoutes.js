@@ -6,6 +6,7 @@ const verifyToken = require("../middleware/auth");
 router.post("/register", authController.registerUser);
 router.post("/login", authController.loginUser);
 router.post("/logout", authController.logoutUser);
+router.post("/sapply",authController.apply);
 
 router.get("/dashboard", verifyToken, (req, res) => {
   res.json({ success: true, message: "Dashboard", user: req.user });
