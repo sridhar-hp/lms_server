@@ -9,6 +9,17 @@ const createToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
+exports.request = async (req, res) => {
+  try {
+    const leaveRequest = await leaves.find();
+    console.log("DB RESULT:", leaveRequest);  // ➤ MUST SHOW ITEMS
+    return res.json({ message: "latest requests", leaveRequest });
+  } catch (err) {
+    console.log("ERROR:", err);
+  }
+};
+ 
+
 exports.apply= async(req, res)=>{
   try{
     const {name, leaveType, startDate, endDate, leaveReason}=req.body;
