@@ -18,18 +18,17 @@ exports.request = async (req, res) => {
     console.log("ERROR:", err);
   }
 };
- 
 
-exports.apply= async(req, res)=>{
-  try{
-    const {name, leaveType, startDate, endDate, leaveReason}=req.body;
-    
-    await leaves.create({name, leaveType, startDate, endDate, leaveReason});
-    return res.json({success:true, message:"Leave applied successfully!" });
+
+exports.apply = async (req, res) => {
+  try {
+    const { name, leaveType, startDate, endDate, leaveReason } = req.body;
+
+    await leaves.create({ name, leaveType, startDate, endDate, leaveReason });
+    return res.json({ success: true, message: "Leave applied successfully!" });
 
   }
-  catch(err)
-  {
+  catch (err) {
     console.log(err);
   }
 };
@@ -76,13 +75,13 @@ exports.loginUser = async (req, res) => {
     //   return res.status(400).json({ message: "Wrong Password" });
     // }
     // TEMPORARY — for testing only
-if (password != user.password) {
-  return res.status(400).json({ message: "Wrong Password" });
-}
+    if (password != user.password) {
+      return res.status(400).json({ message: "Wrong Password" });
+    }
 
 
     // Success
-    res.status(200).json({ success: true,  message: "Login Successful", user,Role:user.role });
+    res.status(200).json({ success: true, message: "Login Successful", user, Role: user.role });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }
