@@ -9,31 +9,7 @@ const createToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
-exports.request = async (req, res) => {
-  try {
-    const leaveRequest = await leaves.find();
-    console.log("DB RESULT:", leaveRequest);  // ➤ MUST SHOW ITEMS
-    return res.json({ message: "latest requests", leaveRequest });
-  } catch (err) {
-    console.log("ERROR:", err);
-  }
-};
-
-
-exports.apply = async (req, res) => {
-  try {
-    const { name, leaveType, startDate, endDate, leaveReason } = req.body;
-
-    await leaves.create({ name, leaveType, startDate, endDate, leaveReason });
-    return res.json({ success: true, message: "Leave applied successfully!" });
-
-  }
-  catch (err) {
-    console.log(err);
-  }
-};
-
-exports.registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { Id, password, role } = req.body;
 
@@ -55,7 +31,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { Id, password } = req.body;
 
   if (!Id || !password) {
@@ -87,13 +63,10 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-
-
-exports.logoutUser = (req, res) => {
+const logoutUser = (req, res) => {
   res.clearCookie("token");
   res.json({ success: true, message: "Logged out" });
 };
 
-exports.me = (req, res) => {
-  res.json({ success: true, user: req.user });
-};
+
+module.exports={registerUser,loginUser,logoutUser};

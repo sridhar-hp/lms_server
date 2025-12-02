@@ -20,7 +20,10 @@ const leaveSchema = new mongoose.Schema({
   leaveType: String,
   startDate: String,
   endDate: String,
-  leaveReason: String
+  leaveReason: String,
+  days: String,
+  status: { type: String, default: "Pending" }
+
 });
 
 module.exports = mongoose.model("leaves", leaveSchema);

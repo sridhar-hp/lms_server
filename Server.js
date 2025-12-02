@@ -13,13 +13,19 @@ app.use(cookieParser());
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
+    origin: "http://localhost:5173",
+    credentials: true
 }));
 
 // Routes
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 app.use("/api", authRoutes);
+app.use("/api", userRoutes);
+app.use("/api", adminRoutes);
+
+
 
 // app.get("/", (req, res) => res.send("Server running..."));
 
