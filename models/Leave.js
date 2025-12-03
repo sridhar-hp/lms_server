@@ -21,8 +21,14 @@ const leaveSchema = new mongoose.Schema({
   startDate: String,
   endDate: String,
   leaveReason: String,
-  days: String,
+  // days: String,
+  duration:String,
+  appliedDate: { 
+    type: Date, 
+    default: Date.now 
+  },
   status: { type: String, default: "Pending" }
+  
 
 });
 
