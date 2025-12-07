@@ -9,11 +9,10 @@ const request = async (req, res) => {
     console.log("DB RESULT:", leaveRequest);  //  MUST SHOW ITEMS
 
     return res.json({ message: "latest requests", leaveRequest });
-  
+
   }
-   catch (err)
-    {
+  catch (err) {
     console.log("ERROR:", err);
   }
 };
-module.exports={request};
+module.exports = { request };

@@ -21,10 +21,11 @@ app.use(cors({
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const idRoutes = require("./routes/idRoutes");
+
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
-
 
 
 // app.get("/", (req, res) => res.send("Server running..."));
