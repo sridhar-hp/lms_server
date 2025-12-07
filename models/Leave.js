@@ -27,9 +27,11 @@ const leaveSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now 
   },
-  status: { type: String, default: "Pending" }
-  
-
+  status: { type: String, default: "Pending" },
+   userId: {
+        type: String,        // ← ADD THIS
+        required: true
+    },
 });
 
 module.exports = mongoose.model("leaves", leaveSchema);

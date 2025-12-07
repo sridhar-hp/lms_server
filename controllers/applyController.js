@@ -5,7 +5,7 @@ exports.apply = async (req, res) => {
 
     try {
 
-        const { name, leaveType, startDate, endDate, leaveReason,duration } = req.body;
+        const { name, leaveType, startDate, endDate, leaveReason,duration,userId } = req.body;
 
         const today = new Date();
         const DD = String(today.getDate()).padStart(2,"0");
@@ -13,7 +13,7 @@ exports.apply = async (req, res) => {
         const YYYY = today.getFullYear();
         const appliedDate=`${DD}-${MM}-${YYYY}`;
 
-        await leaves.create({ name, leaveType, startDate, endDate, leaveReason,duration,appliedDate});
+        await leaves.create({ name, leaveType, startDate, endDate, leaveReason,duration,appliedDate,userId});
         return res.json({ success: true, message: "Leave applied successfully!" });
 
     }
