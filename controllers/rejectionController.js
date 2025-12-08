@@ -1,12 +1,15 @@
 const user = require("../models/User");
 const leaves = require("../models/Leave");
 
-const reject = async(req , res)=>{
-    const id = req.params.id;
+const reject = async (req, res) => {
+    const { Id } = req.params.id;
 
+    const update = await leaves.findByIdAndUpdate(
+        Id,
+        { status: "Rejected" },
+        { new: true }
+    );
 
-    const rej = await leaves.updateOne()
-
-
+    res.status(200).json({ message: "leave rejected successfully",data: update });
 }
-module.exports={reject};
+module.exports = { reject };
