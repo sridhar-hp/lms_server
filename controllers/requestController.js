@@ -15,4 +15,16 @@ const request = async (req, res) => {
     console.log("ERROR:", err);
   }
 };
-module.exports = { request };
+
+// const reject = async (req, res) => {
+//     const { Id } = req.params;
+
+//     const update = await leaves.findByIdAndUpdate(
+//         Id,
+//         { status: "Rejected" },
+//         { new: true }
+//     );
+
+//     res.status(200).json({ message: "leave rejected successfully",data: update });
+// };
+ module.exports = { request };
