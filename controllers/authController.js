@@ -12,7 +12,13 @@ const createToken = (payload) => {
 const registerUser = async (req, res) => {
   try {
 
-    const {name,Id,password}=req.body;
+    const {name,Id,password,role,email}=req.body;
+
+    console.log(name,Id,password,role,email);
+
+    await User.create({name,Id,password,role,email});
+    return res.json({success:true, message:"new user is created"});
+    
     
   } catch (err) {
     console.error(err);
