@@ -11,20 +11,9 @@ const createToken = (payload) => {
 
 const registerUser = async (req, res) => {
   try {
-    const { Id, password, role } = req.body;
 
-    if (!Id || !password)
-      return res.status(400).json({ success: false, message: "All fields required" });
-
-    const exists = await User.findOne({ Id });
-    if (exists)
-      return res.status(400).json({ success: false, message: "User already exists" });
-
-    const hashed = await bcrypt.hash(password, 10);
-
-    await User.create({ Id, password: hashed, role });
-
-    return res.json({ success: true, message: "Registered" });
+    const {name,Id,password}=req.body;
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Server error" });
