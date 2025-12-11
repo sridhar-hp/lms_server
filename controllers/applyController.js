@@ -9,7 +9,7 @@ function formatDate(d) {
     return `${DD}-${MM}-${YYYY}`;
 }
 
-exports.apply = async (req, res) => {
+const apply = async (req, res) => {
 
     try {
 
@@ -42,3 +42,5 @@ exports.apply = async (req, res) => {
         console.log(err);
     }
 };
+
+module.exports={apply};
