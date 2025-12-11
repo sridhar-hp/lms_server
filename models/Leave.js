@@ -24,8 +24,9 @@ const leaveSchema = new mongoose.Schema({
   // days: String,
   duration:String,
   appliedDate: { 
-    type: Date, 
-    default: Date.now 
+    type: String, 
+    // default: Date.now 
+    required: true
   },
   status: { type: String, default: "Pending" },
    userId: {

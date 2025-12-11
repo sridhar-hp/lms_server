@@ -4,7 +4,8 @@ const leaves = require("../models/Leave");
 
 const request = async (req, res) => {
   try {
-    const leaveRequest = await leaves.find();
+    const leaveRequest = await leaves.find().sort({ appliedDate: -1 });
+
 
     console.log("DB RESULT:", leaveRequest);  //  MUST SHOW ITEMS
 
