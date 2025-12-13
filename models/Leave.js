@@ -16,20 +16,20 @@
 const mongoose = require("mongoose");
 
 const leaveSchema = new mongoose.Schema({
-  name: String,
-  leaveType: String,
-  startDate: String,
-  endDate: String,
-  leaveReason: String,
-  // days: String,
-  duration:String,
-  appliedDate: { 
-    type: String, 
-    // default: Date.now 
-    required: true
-  },
-  status: { type: String, default: "Pending" },
-   userId: {
+    name: String,
+    leaveType: String,
+    startDate: String,
+    endDate: String,
+    leaveReason: String,
+    // days: String,
+    duration: String,
+    appliedDate: {
+        type: String,
+        // default: Date.now 
+        required: true
+    },
+    status: { type: String, default: "Pending" },
+    userId: {
         type: String,        // ← ADD THIS
         required: true
     },
