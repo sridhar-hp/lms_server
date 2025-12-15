@@ -18,13 +18,13 @@ const mongoose = require("mongoose");
 const leaveSchema = new mongoose.Schema({
     name: String,
     leaveType: String,
-    startDate: String,
-    endDate: String,
+    startDate: Date,
+    endDate: Date,
     leaveReason: String,
     // days: String,
-    duration: String,
+    duration: Number,
     appliedDate: {
-        type: String,
+        type: Date,
         // default: Date.now 
         required: true
     },

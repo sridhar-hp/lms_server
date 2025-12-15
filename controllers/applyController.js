@@ -1,13 +1,13 @@
 const User = require("../models/User");
 const leaves = require("../models/Leave");
 
-function formatDate(d) {
-    const dt = new Date(d);
-    const DD = String(dt.getDate()).padStart(2, "0");
-    const MM = String(dt.getMonth() + 1).padStart(2, "0");
-    const YYYY = dt.getFullYear();
-    return `${DD}-${MM}-${YYYY}`;
-}
+// function formatDate(d) {
+//     const dt = new Date(d);
+//     const DD = String(dt.getDate()).padStart(2, "0");
+//     const MM = String(dt.getMonth() + 1).padStart(2, "0");
+//     const YYYY = dt.getFullYear();
+//     return `${DD}-${MM}-${YYYY}`;
+// }
 
 const apply = async (req, res) => {
 
@@ -18,17 +18,17 @@ const apply = async (req, res) => {
         const cleanStartDate = formatDate(startDate);
         const cleanEndDate = formatDate(endDate);
 
-        const today = new Date();
-        const DD = String(today.getDate()).padStart(2, "0");
-        const MM = String(today.getMonth() + 1).padStart(2, "0");
-        const YYYY = today.getFullYear();
-        const appliedDate = `${DD}-${MM}-${YYYY}`;
+        // const today = new Date();
+        // const DD = String(today.getDate()).padStart(2, "0");
+        // const MM = String(today.getMonth() + 1).padStart(2, "0");
+        // const YYYY = today.getFullYear();
+        // const appliedDate = `${DD}-${MM}-${YYYY}`;
 
         await leaves.create({
             name,
             leaveType,
-            startDate: cleanStartDate,
-            endDate: cleanEndDate,
+            startDate: new Date(startDate),
+            endDate: new Date(endDate), 
             leaveReason,
             duration,
             appliedDate,

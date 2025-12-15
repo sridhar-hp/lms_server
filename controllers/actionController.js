@@ -18,7 +18,7 @@ const accept = async(req, res)=>{
 
     const acc = await leaves.findByIdAndUpdate(
         id,
-        {status:"accept"},
+        {status:"Approved"},
         {new:true}
 
     );
