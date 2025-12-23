@@ -2,11 +2,7 @@ const User = require("../models/User");
 const leaves = require("../models/Leave");
 
 /* Leave balance config */
-const LEAVE_BALANCE = {
-  "Annual Leave": 14,
-  "Sick Leave": 8,
-  "Casual Leave": 6
-};
+
 
 /* Backend date calculation */
 const calculateDays = (start, end) => {
@@ -21,12 +17,12 @@ const apply = async (req, res) => {
     const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
 
     /* Validate */
-    if (!userId || !leaveType || !startDate || !endDate) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields"
-      });
-    }
+    // if (!userId || !leaveType || !startDate || !endDate) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Missing required fields"
+    //   });
+    // }
 
     /* Calculate duration */
     const duration = calculateDays(startDate, endDate);
@@ -39,17 +35,29 @@ const apply = async (req, res) => {
     }
 
     /* Validate leave type */
-    const allowedDays = LEAVE_BALANCE[leaveType];
-    if (!allowedDays) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid leave type"
-      });
-    }
+    const user = await User.findOne({ Id: userId });
+if (!user) {
+  return res.status(404).json({ success: false, message: "User not found" });
+}
+
+const allowedDays = user.leaveBalance[leaveType];
+if (allowedDays === undefined) {
+  return res.status(400).json({
+    success: false,
+    message: "Invalid leave type"
+  });
+}
+
+    // if (!allowedDays) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid leave type"
+    //   });
+    // }
 
     /* Calculate used leave */
     const used = await leaves.aggregate([
-      { $match: { userId, leaveType, status: { $ne: "Rejected" } } },
+      { $match: { userId, leaveType, status: "Approved" } },
       { $group: { _id: null, total: { $sum: "$duration" } } }
     ]);
 

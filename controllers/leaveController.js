@@ -2,10 +2,10 @@ const User = require("../models/User");
 
 const getLeaveBalance = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ Id: req.params.id });
 
     if (!user) {
-      return res.status(404).json({ success: false });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     res.json({
@@ -14,7 +14,7 @@ const getLeaveBalance = async (req, res) => {
     });
 
   } catch (err) {
-    console.log(err);
+    console.log("ERROR:", err);
     res.status(500).json({ success: false });
   }
 };

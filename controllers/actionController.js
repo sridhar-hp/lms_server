@@ -1,27 +1,69 @@
-const user = require("../models/User");
+const User = require("../models/User");
 const leaves = require("../models/Leave");
 
-const reject = async (req, res) => {
+async function reject(req, res) {
+  try {
     const { id } = req.params;
 
     const update = await leaves.findByIdAndUpdate(
-        id,
-        { status: "Rejected" },
-        { new: true }
+      id,
+      { status: "Rejected" },
+      { new: true }
     );
 
-    res.json({ success:true , message: "leave rejected successfully",data: update });
-};
-
-const accept = async(req, res)=>{
-    const {id}=req.params;
-
-    const acc = await leaves.findByIdAndUpdate(
-        id,
-        {status:"Approved"},
-        {new:true}
-
-    );
-    res.json({success:true, messae:"leave accepted successfully",data:acc});
+    return res.json({
+      success: true,
+      message: "leave rejected successfully",
+      data: update
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
 }
-module.exports = { reject,accept };
+
+async function accept(req, res) {
+  try {
+    const { id } = req.params;
+
+    const leave = await leaves.findById(id);
+    if (!leave) {
+      return res.status(404).json({ success: false, message: "Leave not found" });
+    }
+
+    if (leave.status === "Approved") {
+      return res.json({ success: false, message: "Already approved" });
+    }
+
+    const user = await User.findOne({ Id: leave.userId });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (user.leaveBalance[leave.leaveType] === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: `Leave type "${leave.leaveType}" not configured`
+      });
+    }
+
+    user.leaveBalance[leave.leaveType] -= leave.duration;
+    await user.save();
+
+    leave.status = "Approved";
+    await leave.save();
+
+    return res.json({
+      success: true,
+      message: "Leave approved and balance updated"
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+}
+
+module.exports = {
+  reject,
+  accept
+};
