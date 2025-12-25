@@ -5,16 +5,24 @@ async function reject(req, res) {
   try {
     const { id } = req.params;
 
-    const update = await leaves.findByIdAndUpdate(
-      id,
-      { status: "Rejected" },
-      { new: true }
-    );
+    const leave = await leaves.findById(id);
+    if (!leave) {
+      return res.status(404).json({ success: false, message: "Leave not found" });
+    }
 
-    return res.json({
+    if (leave.status !== "Pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Leave already processed"
+      });
+    }
+
+    leave.status = "Rejected";
+    await leave.save();
+
+    res.json({
       success: true,
-      message: "leave rejected successfully",
-      data: update
+      message: "Leave rejected successfully"
     });
   } catch (err) {
     console.log(err);
@@ -22,11 +30,13 @@ async function reject(req, res) {
   }
 }
 
+
 async function accept(req, res) {
   try {
     const { id } = req.params;
 
     const leave = await leaves.findById(id);
+    // const avl=await User.findById({Id:leave.userId});
     if (!leave) {
       return res.status(404).json({ success: false, message: "Leave not found" });
     }
@@ -47,7 +57,15 @@ async function accept(req, res) {
       });
     }
 
-    user.leaveBalance[leave.leaveType] -= leave.duration;
+if (user.leaveBalance[leave.leaveType] < leave.duration) {
+  return res.status(400).json({
+    success: false,
+    message: "Insufficient leave balance"
+  });
+}
+
+      user.leaveBalance[leave.leaveType] -= leave.duration;
+      user.markModified("leaveBalance");
     await user.save();
 
     leave.status = "Approved";

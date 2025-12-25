@@ -14,15 +14,19 @@ const calculateDays = (start, end) => {
 
 const apply = async (req, res) => {
   try {
+    
     const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
+console.log("APPLY LEAVE BODY:", req.body);
 
     /* Validate */
-    // if (!userId || !leaveType || !startDate || !endDate) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Missing required fields"
-    //   });
-    // }
+   if (!userId || !leaveType || !startDate || !endDate) {
+  return res.status(400).json({
+    success: false,
+    message: "Required fields missing",
+    received: { userId, leaveType, startDate, endDate }
+  });
+}
+
 
     /* Calculate duration */
     const duration = calculateDays(startDate, endDate);

@@ -32,4 +32,29 @@ const users= async(req,res)=>{
         console.log(err);
     }
 };
-module.exports={setting,users};
+
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await user.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "User deleted successfully",
+      user: deletedUser
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+};
+
+module.exports={setting,users,deleteUser};
