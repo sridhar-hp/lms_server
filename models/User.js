@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, default: null }, // FIXED
+    role: { type: String, default: null }, 
     leaveBalance: {
   type: Object,
   default: {
@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     "Casual Leave": 6
   }
 }
-
 
 });
 

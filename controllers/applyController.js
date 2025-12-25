@@ -1,10 +1,8 @@
 const User = require("../models/User");
 const leaves = require("../models/Leave");
 
-/* Leave balance config */
 
 
-/* Backend date calculation */
 const calculateDays = (start, end) => {
   const startDate = new Date(start);
   const endDate = new Date(end);
@@ -18,7 +16,6 @@ const apply = async (req, res) => {
     const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
 console.log("APPLY LEAVE BODY:", req.body);
 
-    /* Validate */
    if (!userId || !leaveType || !startDate || !endDate) {
   return res.status(400).json({
     success: false,
@@ -28,7 +25,6 @@ console.log("APPLY LEAVE BODY:", req.body);
 }
 
 
-    /* Calculate duration */
     const duration = calculateDays(startDate, endDate);
 
     if (duration <= 0) {
@@ -38,7 +34,6 @@ console.log("APPLY LEAVE BODY:", req.body);
       });
     }
 
-    /* Validate leave type */
     const user = await User.findOne({ Id: userId });
 if (!user) {
   return res.status(404).json({ success: false, message: "User not found" });
@@ -52,14 +47,6 @@ if (allowedDays === undefined) {
   });
 }
 
-    // if (!allowedDays) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Invalid leave type"
-    //   });
-    // }
-
-    /* Calculate used leave */
     const used = await leaves.aggregate([
       { $match: { userId, leaveType, status: "Approved" } },
       { $group: { _id: null, total: { $sum: "$duration" } } }
@@ -75,7 +62,6 @@ if (allowedDays === undefined) {
       });
     }
 
-    /* Save leave */
     await leaves.create({
       name,
       leaveType,

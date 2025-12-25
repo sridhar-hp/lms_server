@@ -8,5 +8,4 @@ router.post("/sapply",apply);
 router.get("/status/:userId",status);
 router.get("/leave-balance/:id", getLeaveBalance);
 
-
 module.exports = router;

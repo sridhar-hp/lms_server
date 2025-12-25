@@ -17,15 +17,4 @@ const request = async (req, res) => {
     }
 };
 
-// const reject = async (req, res) => {
-//     const { Id } = req.params;
-
-//     const update = await leaves.findByIdAndUpdate(
-//         Id,
-//         { status: "Rejected" },
-//         { new: true }
-//     );
-
-//     res.status(200).json({ message: "leave rejected successfully",data: update });
-// };
 module.exports = { request };

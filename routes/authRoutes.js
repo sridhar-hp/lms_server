@@ -7,10 +7,4 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
-// router.get("/dashboard", verifyToken, (req, res) => {
-//   res.json({ success: true, message: "Dashboard", user: req.user });
-// });
-
-// router.get("/me", verifyToken, authController.me);
-
 module.exports = router;

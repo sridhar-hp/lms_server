@@ -36,7 +36,7 @@ async function accept(req, res) {
     const { id } = req.params;
 
     const leave = await leaves.findById(id);
-    // const avl=await User.findById({Id:leave.userId});
+    
     if (!leave) {
       return res.status(404).json({ success: false, message: "Leave not found" });
     }
