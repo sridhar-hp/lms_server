@@ -1,8 +1,6 @@
 const User = require("../models/User");
 const leaves = require("../models/Leave");
 
-
-
 const calculateDays = (start, end) => {
   const startDate = new Date(start);
   const endDate = new Date(end);
@@ -12,18 +10,16 @@ const calculateDays = (start, end) => {
 
 const apply = async (req, res) => {
   try {
-    
     const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
-console.log("APPLY LEAVE BODY:", req.body);
+    console.log("APPLY LEAVE BODY:", req.body);
 
-   if (!userId || !leaveType || !startDate || !endDate) {
-  return res.status(400).json({
-    success: false,
-    message: "Required fields missing",
-    received: { userId, leaveType, startDate, endDate }
-  });
-}
-
+    if (!userId || !leaveType || !startDate || !endDate) {
+      return res.status(400).json({
+        success: false,
+        message: "Required fields missing",
+        received: { userId, leaveType, startDate, endDate }
+      });
+    }
 
     const duration = calculateDays(startDate, endDate);
 
@@ -35,17 +31,17 @@ console.log("APPLY LEAVE BODY:", req.body);
     }
 
     const user = await User.findOne({ Id: userId });
-if (!user) {
-  return res.status(404).json({ success: false, message: "User not found" });
-}
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
 
-const allowedDays = user.leaveBalance[leaveType];
-if (allowedDays === undefined) {
-  return res.status(400).json({
-    success: false,
-    message: "Invalid leave type"
-  });
-}
+    const allowedDays = user.leaveBalance[leaveType];
+    if (allowedDays === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid leave type"
+      });
+    }
 
     const used = await leaves.aggregate([
       { $match: { userId, leaveType, status: "Approved" } },
