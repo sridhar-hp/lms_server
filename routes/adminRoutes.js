@@ -11,6 +11,6 @@ router.put("/accept/:id", accept);
 
 router.get("/setting", setting);
 router.put("/users/:id", users);
-router.put("/dusers/:id",deleteUser);
+router.put("/dusers/:id", deleteUser);
 
 module.exports = router;
