@@ -13,7 +13,7 @@ const leaveSchema = new mongoose.Schema({
     },
     status: { type: String, default: "Pending" },
     userId: {
-        type: String,       
+        type: String,
         required: true
     },
 });
