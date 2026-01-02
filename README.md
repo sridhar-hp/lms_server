@@ -4,8 +4,7 @@ This repository contains the **backend REST API** for the Leave Management Syste
 It handles authentication, leave processing, user management, and business logic.
 
 ## Features
-- JWT-based authentication
-- Role-based access control (Student / Staff / Admin)
+- User authentication and role-based access control (Student / Staff / Admin)
 - Leave application and approval workflow
 - Leave balance validation and updates
 - Secure REST APIs
@@ -55,19 +54,15 @@ npm install
 4. Create a `.env` file:
 ```
 MONGO_URI=your_mongodb_url
-JWT_SECRET=your_secret_key
 ```
 
 5. Start the server:
 ```
 node server.js
 ```
-
-
 ## API Testing
 - APIs can be tested using **Postman**
 - Supports GET, POST, PUT, and DELETE methods
-- JWT token required for protected routes
 
 ## Author
 **Sridhar K**  
