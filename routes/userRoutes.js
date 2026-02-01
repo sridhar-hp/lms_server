@@ -1,11 +1,11 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { apply } = require("../controllers/applyController");
-const { status } = require("../controllers/statusController");
-const { getLeaveBalance } = require("../controllers/leaveController")
+import { apply } from "../controllers/applyController.js";
+import  status  from "../controllers/statusController.js";
+import { getLeaveBalance } from "../controllers/leaveController.js";
 
 router.post("/sapply", apply);
 router.get("/status/:userId", status);
 router.get("/leave-balance/:id", getLeaveBalance);
 
-module.exports = router;
+export default router;

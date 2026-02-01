@@ -1,4 +1,4 @@
-const User = require("../models/User");
+import User from "../models/User.js";
 
 const getLeaveBalance = async (req, res) => {
     try {
@@ -19,4 +19,4 @@ const getLeaveBalance = async (req, res) => {
     }
 };
 
-module.exports = { getLeaveBalance };
+export { getLeaveBalance };

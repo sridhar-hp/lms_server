@@ -1,5 +1,4 @@
-const user = require("../models/User");
-const leaves = require("../models/Leave");
+import leaves from "../models/Leave.js";
 
 const status = async (req, res) => {
     const { userId } = req.params;
@@ -18,4 +17,4 @@ const status = async (req, res) => {
         });
     }
 };
-module.exports = { status };
+export default status;

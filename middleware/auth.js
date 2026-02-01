@@ -1,16 +1,25 @@
-const jwt = require("jsonwebtoken");
-//no use 
-module.exports = (req, res, next) => {
-    const token = req.cookies.token;
+import jwt from "jsonwebtoken";
+//no use
+const authMiddleware = (req, res, next) => {
+    const token = req.cookies?.token;
 
-    if (!token)
-        return res.status(401).json({ success: false, message: "No token, unauthorized" });
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "No token, unauthorized",
+        });
+    }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
+        req.user = decoded; // attach user data
+        next(); // move to next middleware / controller
     } catch (err) {
-        res.status(401).json({ success: false, message: "Invalid token" });
+        return res.status(401).json({
+            success: false,
+            message: "Invalid token",
+        });
     }
 };
+
+export default authMiddleware;

@@ -1,19 +1,21 @@
-const User = require("../models/User");
-const leaves = require("../models/Leave");
+import User from "../models/User.js";
+import leaves from "../models/Leave.js";
 
-async function reject(req, res) {
+export async function reject(req, res) {
     try {
         const { id } = req.params;
 
         const leave = await leaves.findById(id);
         if (!leave) {
-            return res.status(404).json({ success: false, message: "Leave not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Leave not found" });
         }
 
         if (leave.status !== "Pending") {
             return res.status(400).json({
                 success: false,
-                message: "Leave already processed"
+                message: "Leave already processed",
             });
         }
 
@@ -22,7 +24,7 @@ async function reject(req, res) {
 
         res.json({
             success: true,
-            message: "Leave rejected successfully"
+            message: "Leave rejected successfully",
         });
     } catch (err) {
         console.log(err);
@@ -30,37 +32,43 @@ async function reject(req, res) {
     }
 }
 
-
-async function accept(req, res) {
+export async function accept(req, res) {
     try {
         const { id } = req.params;
 
         const leave = await leaves.findById(id);
 
         if (!leave) {
-            return res.status(404).json({ success: false, message: "Leave not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Leave not found" });
         }
 
         if (leave.status === "Approved") {
-            return res.json({ success: false, message: "Already approved" });
+            return res.json({
+                success: false,
+                message: "Already approved",
+            });
         }
 
         const user = await User.findOne({ Id: leave.userId });
         if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
         }
 
         if (user.leaveBalance[leave.leaveType] === undefined) {
             return res.status(400).json({
                 success: false,
-                message: `Leave type "${leave.leaveType}" not configured`
+                message: `Leave type "${leave.leaveType}" not configured`,
             });
         }
 
         if (user.leaveBalance[leave.leaveType] < leave.duration) {
             return res.status(400).json({
                 success: false,
-                message: "Insufficient leave balance"
+                message: "Insufficient leave balance",
             });
         }
 
@@ -73,15 +81,10 @@ async function accept(req, res) {
 
         return res.json({
             success: true,
-            message: "Leave approved and balance updated"
+            message: "Leave approved and balance updated",
         });
     } catch (err) {
         console.log(err);
         res.status(500).json({ success: false });
     }
 }
-
-module.exports = {
-    reject,
-    accept
-};

@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const leaves = require("../models/Leave");
+import User from "../models/User.js";
+import leaves from "../models/Leave.js";
 
 const calculateDays = (start, end) => {
     const startDate = new Date(start);
@@ -8,7 +8,7 @@ const calculateDays = (start, end) => {
     return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
 
-const apply = async (req, res) => {
+export const apply = async (req, res) => {
     try {
         const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
         console.log("APPLY LEAVE BODY:", req.body);
@@ -84,4 +84,4 @@ const apply = async (req, res) => {
     }
 };
 
-module.exports = { apply };
+// export default apply;

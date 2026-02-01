@@ -1,9 +1,15 @@
-const express = require("express");
+// const express = require("express");
+import express from "express";
+
 const router = express.Router();
 
-const { request } = require("../controllers/requestController");
-const { accept, reject } = require("../controllers/actionController");
-const { setting, users, deleteUser } = require("../controllers/settingController");
+import request from "../controllers/requestController.js";
+import { accept, reject } from "../controllers/actionController.js";
+import {
+  setting,
+  users,
+  deleteUser,
+} from "../controllers/settingController.js";
 
 router.get("/request", request);
 router.put("/rejection/:id", reject);
@@ -13,4 +19,4 @@ router.get("/setting", setting);
 router.put("/users/:id", users);
 router.put("/dusers/:id", deleteUser);
 
-module.exports = router;
+export default router;

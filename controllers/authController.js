@@ -1,9 +1,8 @@
-const User = require("../models/User");
-const leaves = require("../models/Leave");
-
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { GiLeatherVest } = require("react-icons/gi");
+import User from "../models/User.js";   
+import leaves from "../models/Leave.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { GiLeatherVest } from "react-icons/gi";
 
 const createToken = (payload) => {
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -55,4 +54,5 @@ const logoutUser = (req, res) => {
 };
 
 
-module.exports = { registerUser, loginUser, logoutUser };
+// module.exports = { registerUser, loginUser, logoutUser };
+export { registerUser, loginUser, logoutUser };

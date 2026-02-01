@@ -1,5 +1,4 @@
-const user = require("../models/User");
-const leave = require("../models/Leave");
+import User from "../models/User.js";
 
 const setting = async (req, res) => {
     try {
@@ -55,4 +54,4 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { setting, users, deleteUser };
+export { setting, users, deleteUser };

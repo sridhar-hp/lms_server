@@ -1,6 +1,4 @@
-const User = require("../models/User");
-const leaves = require("../models/Leave");
-// const request  = require("express");
+import leaves from "../models/Leave.js";
 
 const request = async (req, res) => {
     try {
@@ -16,4 +14,4 @@ const request = async (req, res) => {
     }
 };
 
-module.exports = { request };
+export default request;
