@@ -12,10 +12,11 @@ const registerUser = async (req, res) => {
     try {
 
         const { name, Id, password, role, email } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        console.log(name, Id, password, role, email);
+        console.log(name, Id, password, role, email, hashedPassword);
 
-        await User.create({ name, Id, password, role, email });
+        await User.create({ name, Id, password:hashedPassword, role, email });
         return res.json({ success: true, message: "new user is created" });
 
 
@@ -38,11 +39,23 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: "Invalid ID" });
         }
 
-        if (password != user.password) {
-            return res.status(400).json({ message: "Wrong Password" });
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) {
+            return res.status(400).json({ message: "invalid password" });
         }
 
-        res.status(200).json({ success: true, message: "Login Successful", user, Role: user.role, Id: user.Id });
+        // now i goo to create a token for the user
+
+        const token=jwt.sign({ Id: user.Id, role: user.role },process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN });
+       
+        // SEND THE TOKE TO FROTNEND
+        res.json({message:"login successful", token, user: {Id: user.Id, role: user.role, name: user.name} });
+
+        // if (password != user.password) {
+        //     return res.status(400).json({ message: "Wrong Password" });
+        // }
+
+       // res.status(200).json({ success: true, message: "Login Successful", user, Role: user.role, Id: user.Id });
     } catch (error) {
         res.status(500).json({ message: "Server Error", error });
     }
