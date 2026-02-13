@@ -9,6 +9,8 @@ const calculateDays = (start, end) => {
 };
 
 export const apply = async (req, res) => {
+    const userId = req.user.Id;
+    const role = req.user.role;
     try {
         const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
         console.log("APPLY LEAVE BODY:", req.body);
@@ -72,7 +74,7 @@ export const apply = async (req, res) => {
 
         res.json({
             success: true,
-            message: "Leave applied successfully"
+            message: "Leave applied successfully",userId,role
         });
 
     } catch (err) {

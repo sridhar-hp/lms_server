@@ -1,6 +1,5 @@
 // const express = require("express");
 import express from "express";
-import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 import request from "../controllers/requestController.js";

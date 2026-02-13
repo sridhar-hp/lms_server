@@ -10,7 +10,9 @@ const request = async (req, res) => {
 
     }
     catch (err) {
-        console.log("ERROR:", err);
+        
+  console.error("REGISTER ERROR:", err);  // 👈 VERY IMPORTANT
+  res.status(500).json({ success: false, message: err.message });
     }
 };
 

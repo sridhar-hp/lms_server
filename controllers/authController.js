@@ -10,19 +10,27 @@ const createToken = (payload) => {
 
 const registerUser = async (req, res) => {
     try {
+        
+    console.log("REGISTER BODY:", req.body);
+        const { name, Id, password, email } = req.body;
+        const role=req.body.role || "student"; // default to student if not provided
 
-        const { name, Id, password, role, email } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("REGISTER BODY:", req.body);
 
-        console.log(name, Id, password, role, email, hashedPassword);
-
+        console.log(name, Id, password,  email, hashedPassword,role);
+       
         await User.create({ name, Id, password:hashedPassword, role, email });
         return res.json({ success: true, message: "new user is created" });
 
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: "Server error" });
+        console.error("REGISTER ERROR :", err);
+        if(err.code === 11000) {
+            return res.status(400).json({ success: false, message: "User with this ID already exists" });
+        }
+        
+        res.status(500).json({ success: false, message: "Server error" ,error: err.message});
     }
 };
 
@@ -34,7 +42,9 @@ const loginUser = async (req, res) => {
     }
 
     try {
+        console.log("login body", req.body);
         const user = await User.findOne({ Id });
+        console.log(" ", req.body);
         if (!user) {
             return res.status(400).json({ message: "Invalid ID" });
         }
