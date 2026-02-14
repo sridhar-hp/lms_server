@@ -2,7 +2,6 @@ import User from "../models/User.js";
 import leaves from "../models/Leave.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { GiLeatherVest } from "react-icons/gi";
 
 const createToken = (payload) => {
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
