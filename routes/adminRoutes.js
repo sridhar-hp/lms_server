@@ -17,6 +17,6 @@ router.put("/accept/:id",protect, accept);
 
 router.get("/setting",protect, setting);
 router.put("/users/:id",protect, users);
-router.put("/dusers/:id",protect, deleteUser);
+router.delete("/dusers/:id",protect, deleteUser);
 
 export default router;
