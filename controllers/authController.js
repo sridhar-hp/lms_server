@@ -25,7 +25,6 @@ const registerUser = async (req, res) => {
                 message: "User already exists"
             });
         }
-        // const role = req.body.role || "student"; // default to student if not provided
 
         const hashedPassword = await bcrypt.hash(password, 10);
         console.log("REGISTER BODY:", req.body);
