@@ -11,16 +11,21 @@ const registerUser = async (req, res) => {
     try {
 
         console.log("REGISTER BODY:", req.body);
-        const { name, Id, password, email } = req.body;
+        const { name, Id, password, email,role } = req.body;
+        console.log("roll recived:", role);
         const existingUser = await User.findOne({ Id });
 
+        if(!role){
+            return res.status(400).json({ success: false, message: "Role is required" });
+        
+        }
         if (existingUser) {
             return res.status(400).json({
                 success: false,
                 message: "User already exists"
             });
         }
-        const role = req.body.role || "student"; // default to student if not provided
+        // const role = req.body.role || "student"; // default to student if not provided
 
         const hashedPassword = await bcrypt.hash(password, 10);
         console.log("REGISTER BODY:", req.body);
