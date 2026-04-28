@@ -12,7 +12,7 @@ export const apply = async (req, res) => {
     const userId = req.user.Id;
     const role = req.user.role;
     try {
-        const { name, leaveType, startDate, endDate, leaveReason, userId } = req.body;
+        const { name, leaveType, startDate, endDate, leaveReason } = req.body;
         console.log("APPLY LEAVE BODY:", req.body);
 
         if (!userId || !leaveType || !startDate || !endDate) {
