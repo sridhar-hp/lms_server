@@ -6,6 +6,9 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: null },
+    profileImage: { type: String, default: "" },
+    phoneNumber: { type: String, default: "" },
+
     leaveBalance: {
         type: Object,
         default: {
@@ -14,7 +17,6 @@ const userSchema = new mongoose.Schema({
             "Casual Leave": 6
         }
     }
-
 });
 
 // module.exports = mongoose.model("User", userSchema);

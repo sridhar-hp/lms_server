@@ -6,9 +6,11 @@ import status from "../controllers/statusController.js";
 import { getLeaveBalance } from "../controllers/leaveController.js";
 import { leaveSchema } from "../schemas/leave.schema.js";
 import { validate } from "../middleware/validate.middleware.js";
+import { getProfile } from "../controllers/profileController.js";
 
 router.post("/sapply", protect,validate(leaveSchema), apply);
 router.get("/status/:userId",protect, status);
 router.get("/leave-balance/:id",protect, getLeaveBalance);
+router.get("profile/:userId",protect,getProfile);
 
 export default router;
