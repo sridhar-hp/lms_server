@@ -11,6 +11,6 @@ import { getProfile } from "../controllers/profileController.js";
 router.post("/sapply", protect,validate(leaveSchema), apply);
 router.get("/status/:userId",protect, status);
 router.get("/leave-balance/:id",protect, getLeaveBalance);
-router.get("profile/:userId",protect,getProfile);
+router.get("/profile/:userId",protect,getProfile);
 
 export default router;
