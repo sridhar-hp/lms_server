@@ -11,14 +11,15 @@ const registerUser = async (req, res) => {
     try {
 
         console.log("REGISTER BODY:", req.body);
-        const { name, Id, password, email,role } = req.body;
+        const { name, Id, password, email, role } = req.body;
         console.log("roll recived:", role);
         const existingUser = await User.findOne({ Id });
 
-        if(!role){
+        if (!role) {
             return res.status(400).json({ success: false, message: "Role is required" });
-        
+
         }
+
         if (existingUser) {
             return res.status(400).json({
                 success: false,
@@ -29,14 +30,19 @@ const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         console.log("REGISTER BODY:", req.body);
 
+        const profileImage = "";
+        const phoneNumber = "";
+
         console.log(name, Id, password, email, hashedPassword, role);
 
-        await User.create({ name, Id, password: hashedPassword, role, email });
+        await User.create({ name, Id, password: hashedPassword, role, email, profileImage, phoneNumber });
+
         return res.json({ success: true, message: "new user is created" });
 
 
     } catch (err) {
         console.error("REGISTER ERROR :", err);
+
         if (err.code === 11000) {
             return res.status(400).json({ success: false, message: "User with this ID already exists" });
         }
@@ -46,6 +52,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+
     const { Id, password } = req.body;
 
     if (!Id || !password) {
@@ -56,6 +63,7 @@ const loginUser = async (req, res) => {
         console.log("login body", req.body);
         const user = await User.findOne({ Id });
         console.log(" ", req.body);
+
         if (!user) {
             return res.status(400).json({ message: "Invalid ID" });
         }
@@ -72,11 +80,6 @@ const loginUser = async (req, res) => {
         // SEND THE TOKE TO FROTNEND
         res.json({ message: "login successful", token, user: { Id: user.Id, role: user.role, name: user.name } });
 
-        // if (password != user.password) {
-        //     return res.status(400).json({ message: "Wrong Password" });
-        // }
-
-        // res.status(200).json({ success: true, message: "Login Successful", user, Role: user.role, Id: user.Id });
     } catch (error) {
         res.status(500).json({ message: "Server Error", error });
     }
@@ -86,7 +89,6 @@ const logoutUser = (req, res) => {
     res.clearCookie("token");
     res.json({ success: true, message: "Logged out" });
 };
-
 
 // module.exports = { registerUser, loginUser, logoutUser };
 export { registerUser, loginUser, logoutUser };

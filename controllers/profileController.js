@@ -18,3 +18,21 @@ export const getProfile = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 };
+
+export const updateProfile = async (req, res) => {
+    const userId= req.params.userId;
+    const { name, email, phoneNumber } = req.body;
+
+    try{
+        const userUpdate = await User.findOneAndUpdate(
+            { Id: userId },
+            { name, email, phoneNumber },
+            { new: true }
+        );
+        res.status(200).json({ success: true, message: "Profile updated successfully", updatedProfile: userUpdate });
+    }
+    catch(err){
+        console.log("Error updating profile:", err);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};

@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
             "Sick Leave": 8,
             "Casual Leave": 6
         }
-    }
+    },
 });
 
 // module.exports = mongoose.model("User", userSchema);
