@@ -1,36 +1,34 @@
 import User from "../models/User.js";
 
 export const getProfile = async (req, res) => {
-    const userId = req.params.userId;
+    const userId = req.user?.Id || req.params.userId;
     try {
-        const user = await User.findOne({ Id: userId });
+        const user = await User.findOne({ Id: userId }).select("-password");
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
-        res.json({
+        return res.json({
             success: true,
             profiledetails: user
         });
-        console.log("this is profile :", user);
-
-    }
-    catch (err) {
-        res.status(500).json({ success: false, message: "Server error" });
+    } catch (err) {
+        console.error("Error getting profile:", err);
+        return res.status(500).json({ success: false, message: "Server error" });
     }
 };
 
 export const updateProfile = async (req, res) => {
-    const userId = req.params.userId;
-    const { name, email, phoneNumber } = req.body;
+    const userId = req.user?.Id || req.params.userId;
+    const { name, email, phoneNumber, department, designation } = req.body;
 
     try {
         const userUpdate = await User.findOneAndUpdate(
             { Id: userId },
-            { name, email, phoneNumber },
+            { name, email, phoneNumber, department, designation },
             {
                 new: true,
                 runValidators: true
-            });
+            }).select("-password");
 
         if (!userUpdate) {
             return res.status(404).json({
@@ -39,17 +37,46 @@ export const updateProfile = async (req, res) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Profile updated successfully",
             updatedProfile: userUpdate,
         });
-    }
-    catch (err) {
+    } catch (err) {
         console.log("Error updating profile:", err);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Server error"
         });
+    }
+};
+
+export const uploadProfileImage = async (req, res) => {
+    const userId = req.user?.Id;
+    if (!req.file) {
+        return res.status(400).json({ success: false, message: "No image uploaded" });
+    }
+
+    try {
+        const profileImagePath = `/uploads/${req.file.filename}`;
+        const userUpdate = await User.findOneAndUpdate(
+            { Id: userId },
+            { profileImage: profileImagePath },
+            { new: true }
+        ).select("-password");
+
+        if (!userUpdate) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Profile image updated successfully",
+            profileImage: profileImagePath,
+            updatedProfile: userUpdate,
+        });
+    } catch (err) {
+        console.error("Error uploading profile image:", err);
+        return res.status(500).json({ success: false, message: "Server error" });
     }
 };
